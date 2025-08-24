@@ -52,7 +52,7 @@ def DeleteKMSvaults(config, signer, Compartments, MovetoCompartmentID):
                 itemstatus = object.get_vault(vault_id=item.id).data
                 if itemstatus.lifecycle_state != "DELETED":
                     try:
-                        kmsmanagement = oci.key_management.KmsManagementClient(config, itemstatus.management_endpoint)
+                        kmsmanagement = oci.key_management.KmsManagementClient(config, itemstatus.management_endpoint,signer=signer)
                         keys = kmsmanagement.list_keys(compartment_id=item.compartment_id, retry_strategy=oci.retry.DEFAULT_RETRY_STRATEGY).data
                         for key in keys:
                             keychangedetails = oci.key_management.models.ChangeKeyCompartmentDetails()
